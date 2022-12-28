@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BiUserCircle } from 'react-icons/bi';
-import css from './ContactsList.module.css';
-import Button from 'components/ContactsTask/Button/Button';
-import NoContactsInfo from 'components/ContactsTask/NoContactsInfo/NoContactsInfo';
 import { BsXCircle } from 'react-icons/bs';
+import css from './ContactsList.module.css';
+import Button from 'components/Button/Button';
+import NoContactsInfo from 'components/NoContactsInfo/NoContactsInfo';
 
 export default class ContactsList extends Component {
   render() {
@@ -12,8 +12,8 @@ export default class ContactsList extends Component {
     return (
       <>
         <ul className={css.contactList}>
-          {showFilteredContacts().length ? (
-            showFilteredContacts().map(contact => (
+          {showFilteredContacts.length ? (
+            showFilteredContacts.map(contact => (
               <li className={css.contactItem} key={contact.id}>
                 <p className={css.contactInfoWrapper}>
                   <BiUserCircle className={css.contactIcon} />
@@ -41,6 +41,12 @@ export default class ContactsList extends Component {
 }
 
 ContactsList.propTypes = {
-  showFilteredContacts: PropTypes.func.isRequired,
+  showFilteredContacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   handleDeleteContact: PropTypes.func.isRequired,
 };
