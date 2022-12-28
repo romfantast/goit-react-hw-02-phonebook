@@ -4,16 +4,14 @@ import css from './Button.module.css';
 
 export default class Button extends Component {
   render() {
-    const { type, id, onDeleteContact } = this.props;
-    const onClick = () => {
-      onDeleteContact && onDeleteContact(id);
-    };
+    const { type, id, actionText, onDeleteContact } = this.props;
     return (
       <button
         type={type}
-        className={`${css.button} ${id ? css.buttonOnDelete : ''}`}
-        onClick={() => onClick(id)}
+        className={css.buttonOnDelete}
+        onClick={() => onDeleteContact(id)}
       >
+        {actionText}
         {this.props.children}
       </button>
     );
@@ -21,6 +19,7 @@ export default class Button extends Component {
 }
 
 Button.propTypes = {
+  actionText: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   id: PropTypes.string,
   onDeleteContact: PropTypes.func,

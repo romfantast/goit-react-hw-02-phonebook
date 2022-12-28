@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-
-import css from './ContactsForm.module.css';
-import InputAddContact from 'components/InputAddContact/InputAddContact';
+import PropTypes from 'prop-types';
 import ContactsAppCaption from 'components/ContactsAppCaption/ContactsAppCaption';
-import InputAddNumber from 'components/InputAddNumber/InputAddNumber';
-import Button from 'components/Button/Button';
-import { nanoid } from 'nanoid';
+import css from './ContactsForm.module.css';
 
 export default class ContactsForm extends Component {
   state = {
     name: '',
-    number: '',
-    isFocus: false,
+    phone: '',
   };
   handleContactData = e => {
     const { name, value } = e.target;
@@ -21,32 +15,53 @@ export default class ContactsForm extends Component {
 
   getContactFormData = e => {
     e.preventDefault();
-    const { name, number } = e.currentTarget;
-    const contactId = nanoid();
-    if (this.props.handleSubmitForm(contactId, name, number)) {
+    const { name, phone } = this.state;
+
+    if (this.props.handleSubmitForm(name, phone)) {
       this.setState({
         name: '',
-        number: '',
+        phone: '',
       });
       return;
     }
   };
 
   render() {
-    const { name, number } = this.state;
+    const { name, phone } = this.state;
     const { handleContactData, getContactFormData } = this;
     return (
       <form onSubmit={getContactFormData} className={css.form}>
-        <InputAddContact handleName={handleContactData} name={name} />
+        <div className={css.inputWrapper}>
+          <input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            value={name}
+            onChange={handleContactData}
+          />
+        </div>
         <ContactsAppCaption>Number</ContactsAppCaption>
-        <InputAddNumber handleNumber={handleContactData} number={number} />
-        <Button type="submit">Add contact</Button>
+        <div className={css.inputWrapper}>
+          <input
+            type="tel"
+            name="phone"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            onChange={handleContactData}
+            value={phone}
+          />
+        </div>
+        <button type="submit" className={css.button}>
+          Add contact
+        </button>
       </form>
     );
   }
 }
 
 ContactsForm.propTypes = {
-  //   handleSubmitForm: PropTypes.func.isRequired,
-  //   handleContactData: PropTypes.func.isRequired,
+  handleSubmitForm: PropTypes.func.isRequired,
 };

@@ -6,6 +6,7 @@ import ContactsAppCaption from './ContactsAppCaption/ContactsAppCaption';
 import ContactsForm from './ContactsForm/ContactsForm';
 import InputFilterContact from './InputFilterContact/InputFilterContact';
 import ContactsList from './ContactsList/ContactsList';
+import { nanoid } from 'nanoid';
 
 export default class App extends Component {
   state = {
@@ -17,15 +18,17 @@ export default class App extends Component {
     ],
     filter: '',
   };
-  handleSubmitForm = (contactId, name, number) => {
-    for (let contact of this.state.contacts) {
-      let firstName = contact.name.split(' ')[0].toLowerCase();
-      if (firstName === name.value.toLowerCase()) {
-        Notify.warning('This contact is already in the list');
-        return false;
-      }
+  handleSubmitForm = (name, phone) => {
+    const { contacts } = this.state;
+    const contactId = nanoid();
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      return Notify.warning('This contact is already in the list');
     }
-    const contactObj = { id: contactId, name: name.value, phone: number.value };
+    const contactObj = { id: contactId, name, phone };
     this.setState(prevState => ({
       contacts: [...prevState.contacts, contactObj],
     }));

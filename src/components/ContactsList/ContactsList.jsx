@@ -25,8 +25,8 @@ export default class ContactsList extends Component {
                   type="button"
                   onDeleteContact={handleDeleteContact}
                   id={contact.id}
+                  actionText=" Delete"
                 >
-                  Delete
                   <BsXCircle />
                 </Button>
               </li>
