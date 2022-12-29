@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { BiUserCircle } from 'react-icons/bi';
 import { BsXCircle } from 'react-icons/bs';
 import css from './ContactsList.module.css';
-import Button from 'components/Button/Button';
+import DeleteButton from 'components/DeleteButton/DeleteButton';
 import NoContactsInfo from 'components/NoContactsInfo/NoContactsInfo';
 
 export default class ContactsList extends Component {
@@ -21,14 +21,14 @@ export default class ContactsList extends Component {
                   <span className={css.contactPhone}>{contact.phone}</span>
                 </p>
 
-                <Button
+                <DeleteButton
                   type="button"
                   onDeleteContact={handleDeleteContact}
                   id={contact.id}
                   actionText=" Delete"
                 >
                   <BsXCircle />
-                </Button>
+                </DeleteButton>
               </li>
             ))
           ) : (
