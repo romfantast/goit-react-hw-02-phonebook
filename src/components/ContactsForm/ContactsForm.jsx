@@ -8,6 +8,7 @@ export default class ContactsForm extends Component {
     name: '',
     phone: '',
   };
+
   handleContactData = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
